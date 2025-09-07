@@ -1,68 +1,187 @@
 <!DOCTYPE html>
 <html lang="ru">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FCT-Team Code Generator</title>
-<link rel="icon" href="https://i.ibb.co/QJD5Qsp/linked-belt16-16.png" type="image/png">
-<style>
-    @font-face {
-        font-family: "PixelFont";
-        src: url("https://fonts.cdnfonts.com/s/19687/PressStart2P-Regular.woff") format("woff");
-    }
-    body {
-        font-family: "PixelFont", Arial, sans-serif;
-        background: #1e1e1e;
-        color: #E0FFFF;
-        margin: 15;
-        padding: 0;
-    } 
-    .block {
-        margin: 15px;
-        border: 1px solid #A0522D;
-        background: #2c2c2c;
-        box-shadow: 2px 2px 4px #000;
-        padding: 15px;
-        border-radius: 8px;
-    }
-    textarea {
-        width: 100%;
-        height: 142px;
-        font-family: "PixelFont", monospace;
-		font-size: 12px;
-        background: #262626;
-        color: #ff8400;
-        border: 2px solid #606060;
-    }
-    button {
-        background: #404040;
-        color: #ffffff;
-        font-family: "PixelFont", Arial, sans-serif;
-        font-size: 14px;
-        padding: 10px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        text-shadow: 1px 1px 0px #000;
-    }
-    button:hover {
-        background: #ff8400;
-    }
-    h1 {
-        margin-left: 20px;
-        font-size: 24px;
-        color: #ff8400;
-        text-shadow: 2px 2px 1px #000;
-    }
-</style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FCT-Team Code Generator (Factorio Style)</title>
+    <link rel="icon" href="https://i.ibb.co/QJD5Qsp/linked-belt16-16.png" type="image/png">
+    <style>
+        @font-face {
+            font-family: "PixelFont";
+            src: url("https://fonts.cdnfonts.com/s/19687/PressStart2P-Regular.woff") format("woff");
+        }
+
+        :root {
+            --factorio-dark-bg: #1a1a1a;
+            --factorio-panel-bg: #383838;
+            --factorio-border-light: #555555;
+            --factorio-border-dark: #111111;
+            --factorio-orange: #e4790b;
+            --factorio-text: #e8e8e8;
+            --factorio-code-text: #ff9d33;
+        }
+
+        body {
+            font-family: "PixelFont", Arial, sans-serif;
+            background-color: var(--factorio-dark-bg);
+            background-image:
+                linear-gradient(rgba(0,0,0,0.2) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,0,0,0.2) 1px, transparent 1px);
+            background-size: 40px 40px;
+            color: var(--factorio-text);
+            margin: 15px;
+            padding: 0;
+            transition: background-position 0.1s linear;
+        }
+
+        h1 {
+            font-size: 26px;
+            color: var(--factorio-orange);
+            text-shadow: 2px 2px 0 #000;
+            text-align: center;
+            margin: 20px 0 30px 0;
+        }
+
+        .block {
+            max-width: 800px;
+            margin: 20px auto;
+            border: 2px solid var(--factorio-border-dark);
+            border-top-color: var(--factorio-border-light);
+            border-left-color: var(--factorio-border-light);
+            background: var(--factorio-panel-bg);
+            box-shadow: 5px 5px 8px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 4px;
+        }
+
+        .control-row {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .control-row label {
+            flex-shrink: 0;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            font-family: "PixelFont", monospace;
+            font-size: 12px;
+            padding: 10px;
+        }
+
+        textarea {
+            width: 100%;
+            box-sizing: border-box;
+            height: 150px;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            font-size: 12px;
+            resize: vertical;
+        }
+
+        input[type="text"], textarea {
+            background: #181818;
+            color: var(--factorio-code-text);
+            border: 2px solid #111;
+            border-bottom-color: #444;
+            border-right-color: #444;
+            border-radius: 2px;
+            box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        button {
+            background: #4f4f4f;
+            color: var(--factorio-text);
+            font-family: "PixelFont", Arial, sans-serif;
+            font-size: 14px;
+            padding: 10px 15px;
+            border: 2px solid #222;
+            border-top-color: #777;
+            border-left-color: #777;
+            border-radius: 4px;
+            cursor: pointer;
+            text-shadow: 1px 1px 0 #000;
+            transition: all 0.1s ease-in-out;
+            white-space: nowrap;
+        }
+
+        button:hover {
+            background: #5a5a5a;
+        }
+
+        button:active {
+            background-color: #404040;
+            border-color: #222;
+            border-top-color: #333;
+            border-left-color: #333;
+            transform: translateY(1px);
+        }
+
+        .button-push-right {
+            margin-left: auto;
+        }
+
+        .footer, .guide {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        a {
+            color: var(--factorio-orange);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Стили для анимации */
+        @keyframes flash-orange {
+            50% {
+                background-color: var(--factorio-orange);
+                border-color: #ffc27a;
+            }
+        }
+
+        .is-copying {
+            animation: flash-orange 0.5s ease-in-out;
+        }
+
+        .copy-feedback {
+            position: absolute;
+            right: 0;
+            top: -20px;
+            color: var(--factorio-orange);
+            font-size: 12px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.4s ease-out;
+            pointer-events: none;
+            text-shadow: 1px 1px 0 #000;
+        }
+
+        .copy-feedback.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
 </head>
 <body>
     <h1>Linked-Belt By FCT-team</h1>
+
     <div class="block">
-    <img src="https://i.ibb.co/TkvMNSL/linkbelt2.png" style="width: 50px; height: 25px;" />
-        <label for="nameInput1">Конвейер погрузки:</label>
-        <input type="text" id="nameInput1" placeholder="1-Тег конвейера" />
-        <button id="copyButton1">Скопировать код</button>
-    <textarea id="codeArea1" readonly>
+        <div class="control-row">
+            <img src="https://i.ibb.co/TkvMNSL/linkbelt2.png" style="width: 50px; height: 25px;" />
+            <label for="nameInput1">Конвейер погрузки:</label>
+            <input type="text" id="nameInput1" placeholder="1-Тег конвейера" />
+            <button id="copyButton1">Скопировать</button>
+            <span class="copy-feedback">скопировано</span>
+        </div>
+        <textarea id="codeArea1" readonly>
       🐞YouTube: youtube.com/@FCT-Ostin
       💙Telegram: t.me/FCTostin
       🎮Steam Группа: steamcommunity.com/groups/FCTgroup
@@ -72,20 +191,38 @@
     </div>
 
     <div class="block">
-    <img src="https://i.ibb.co/WpWXL1g/linkbelt1.png" style="width: 50px; height: 25px;" />
-        <label for="nameInput2">Конвейер разгрузки:</label>
-        <input type="text" id="nameInput2" placeholder="2-Тег конвейера" />
-        <button id="copyButton2">Скопировать код</button>
+        <div class="control-row">
+            <img src="https://i.ibb.co/WpWXL1g/linkbelt1.png" style="width: 50px; height: 25px;" />
+            <label for="nameInput2">Конвейер разгрузки:</label>
+            <input type="text" id="nameInput2" placeholder="2-Тег конвейера" />
+            <button id="copyButton2">Скопировать</button>
+            <span class="copy-feedback">скопировано</span>
+        </div>
         <textarea id="codeArea2" readonly></textarea>
     </div>
 
     <div class="block">
-    <img src="https://i.ibb.co/tqGNcfX/linkbelt3.png" style="width: 60px; height: 25px;" />
-        <label for="nameInput3">Код обьеденения конвейеров:</label>
-        <textarea id="codeArea3" readonly style="height: 110px; font-size: 14px;" ></textarea>
-        <button id="copyButton3">Скопировать код</button>
+        <div class="control-row">
+            <img src="https://i.ibb.co/tqGNcfX/linkbelt3.png" style="width: 60px; height: 25px;" />
+            <label for="nameInput3">Код объединения конвейеров:</label>
+            <button id="copyButton3" class="button-push-right">Скопировать</button>
+            <span class="copy-feedback">скопировано</span>
+        </div>
+        <textarea id="codeArea3" readonly style="height: 110px; font-size: 15px;"></textarea>
     </div>
-Руководство: <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=3392327413 " target="_blank">Как настроить Связанные конвейеры</a></p>
+
+    <p class="guide">Руководство: <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=3392327413" target="_blank">Как настроить Связанные конвейеры</a></p>
+
+    <div class="footer" style="font-size: 0.8em; line-height: 1.6; opacity: 0.7;">
+        <p>
+            <a href="https://www.youtube.com/@FCT-Ostin" target="_blank">YouTube</a> |
+            <a href="https://t.me/FCTostin" target="_blank">Telegram</a> |
+            <a href="https://steamcommunity.com/groups/FCTgroup" target="_blank">Steam Группа</a> |
+            <a href="https://www.patreon.com/c/OstinFCT" target="_blank">Patreon</a> |
+            <a href="https://boosty.to/ostinfct" target="_blank">Boosty</a>
+        </p>
+    </div>
+
     <script>
         const nameInput1 = document.getElementById('nameInput1');
         const codeArea1 = document.getElementById('codeArea1');
@@ -127,49 +264,72 @@ i.linked_belt_type = 'input'
 o.linked_belt_type = 'output'
 i.connect_linked_belts(o)`;
 
-        nameInput1.addEventListener('input', () => {
-            const updatedCode1 = originalCode1.replace(/entity\.name_tag = ".*?"/, `entity.name_tag = "${nameInput1.value}"`);
+        function updateCombinedCode() {
+            const tag1 = nameInput1.value || "FCTteam1";
+            const tag2 = nameInput2.value || "FCTteam2";
+
+            const updatedCode1 = originalCode1.replace(/entity\.name_tag = ".*?"/, `entity.name_tag = "${tag1}"`);
             codeArea1.value = updatedCode1;
-            updateCombinedCode();
-        });
+
+            const updatedCode2 = originalCode2.replace(/entity\.name_tag = ".*?"/, `entity.name_tag = "${tag2}"`);
+            codeArea2.value = updatedCode2;
+
+            const combinedCode = originalCode3
+                .replace(/'FCTteam1'/, `'${tag1}'`)
+                .replace(/'FCTteam2'/, `'${tag2}'`);
+            codeArea3.value = combinedCode;
+        }
+
+        function showCopyFeedback(button) {
+            const feedbackSpan = button.nextElementSibling;
+
+            button.classList.add('is-copying');
+            feedbackSpan.classList.add('show');
+
+            setTimeout(() => {
+                button.classList.remove('is-copying');
+            }, 500);
+
+            setTimeout(() => {
+                feedbackSpan.classList.remove('show');
+            }, 2000);
+        }
+
+        nameInput1.addEventListener('input', updateCombinedCode);
+        nameInput2.addEventListener('input', updateCombinedCode);
 
         copyButton1.addEventListener('click', () => {
             codeArea1.select();
             document.execCommand('copy');
-            alert('Конвейер погрузки [1] Скопирован!');
-        });
-
-        nameInput2.addEventListener('input', () => {
-            const updatedCode2 = originalCode2.replace(/entity\.name_tag = ".*?"/, `entity.name_tag = "${nameInput2.value}"`);
-            codeArea2.value = updatedCode2;
-            updateCombinedCode();
+            showCopyFeedback(copyButton1);
         });
 
         copyButton2.addEventListener('click', () => {
             codeArea2.select();
             document.execCommand('copy');
-            alert('Конвейер разгрузки [2] Скопирован!');
+            showCopyFeedback(copyButton2);
         });
-
-        function updateCombinedCode() {
-            const combinedCode = originalCode3
-                .replace(/'FCTteam1'/, `'${nameInput1.value || "FCTteam1"}'`)
-                .replace(/'FCTteam2'/, `'${nameInput2.value || "FCTteam2"}'`);
-            codeArea3.value = combinedCode;
-        }
 
         copyButton3.addEventListener('click', () => {
             codeArea3.select();
             document.execCommand('copy');
-            alert('Код обьеденения скопирован');
+            showCopyFeedback(copyButton3);
+        });
+
+        updateCombinedCode();
+
+        document.addEventListener('mousemove', (e) => {
+            const body = document.body;
+            const { innerWidth, innerHeight } = window;
+            const { clientX, clientY } = e;
+
+            const moveStrength = 40;
+
+            const xPos = (clientX / innerWidth - 0.5) * moveStrength;
+            const yPos = (clientY / innerHeight - 0.5) * moveStrength;
+
+            body.style.backgroundPosition = `${-xPos}px ${-yPos}px`;
         });
     </script>
-<div style= "text-align: right; font-size: 0.8em; line-height: 0.4; opacity: 0.8;" > 
-    <p>🐞YouTube: <a href="https://www.youtube.com/@FCT-Ostin" target="_blank">ссылка</a></p>
-    <p>💙Telegram: <a href="https://t.me/FCTostin" target="_blank">ссылка</a></p>
-    <p>🎮Steam Группа: <a href="https://steamcommunity.com/groups/FCTgroup" target="_blank">ссылка</a></p>
-    <p>🕹️Patreon: <a href="https://www.patreon.com/c/OstinFCT" target="_blank">ссылка</a></p>
-    <p>🪐Boosty: <a href="https://boosty.to/ostinfct" target="_blank">ссылка</a></p>
-</div>
 </body>
 </html>
